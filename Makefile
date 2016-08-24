@@ -2,7 +2,7 @@
 # Some uses for short name:
 # - Docker image name
 # - Kubernetes service, rc, pod, secret, volume names
-SHORT_NAME := xiucall-api
+SHORT_NAME := xiucall-admin
 
 include includes.mk versioning.mk
 
@@ -24,7 +24,7 @@ docker-push: check-docker docker-build
 	docker push ${IMAGE}
 
 # Deploy is a Kubernetes-oriented target
-deploy: kube-service kube-deployment
+deploy: set-images kube-service kube-deployment
 
 # Some things, like services, have to be deployed before pods. This is an
 # example target. Others could perhaps include kube-volume, etc.
