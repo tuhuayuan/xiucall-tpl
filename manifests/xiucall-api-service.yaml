@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xiucall-api
+  labels:
+    router.deis.io/routable: "true"
+  annotations:
+    router.deis.io/domains: api
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: xiucall-api

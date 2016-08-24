@@ -7,7 +7,7 @@ SHORT_NAME := xiucall-api
 include includes.mk versioning.mk
 
 # Kubernetes-specific information for Secret, RC, Service, and Image.
-Deployment := manifests/${SHORT_NAME}-deployment.tmp.yaml
+Deployment := manifests/${SHORT_NAME}-deployment.yaml
 Service := manifests/${SHORT_NAME}-service.yaml
 
 all:
@@ -20,7 +20,7 @@ docker-build: check-docker
 	docker tag ${IMAGE} ${MUTABLE_IMAGE}
 
 # Push to a registry that Kubernetes can access.
-docker-push: check-docker
+docker-push: check-docker docker-build
 	docker push ${IMAGE}
 
 # Deploy is a Kubernetes-oriented target
@@ -40,7 +40,7 @@ kube-clean: check-kubectl
 	kubectl delete -f ${Deployment}
 
 set-images:
-	sed 's#\(image:\) .*#\1 $(IMAGE)#' manifests/${SHORT_NAME}-deployment.yaml \
+	sed 's#\(image:\) .*#\1 $(IMAGE)#' manifests/${SHORT_NAME}-deployment.yaml.tpl \
 		> ${Deployment}
 
 .PHONY: all deploy
