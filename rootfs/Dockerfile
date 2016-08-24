@@ -23,5 +23,6 @@ COPY php.ini /usr/local/etc/php/
 COPY repo/ /var/www/html/
 
 RUN chown -hR www-data:www-data Runtime/ 
+RUN chown -hR www-data:www-data Uploads/ 
 
 CMD ["apache2-foreground"]
